@@ -4,10 +4,23 @@
 
 \usepackage{download}
 
+
+% there should be a check on the tag being well-formed (or at least just 4 characters)
+% there should be a check on the output (maybe this supersedes the wellformedness check)
+% there should be a configurable ``default preamble'', maybe via some option: \usepackage[default]{stacks} would include the Stacks preamble, otherwise let the user do it
+% there should be an option for including the proof?
+
+% include a tag from the Stacks project
+\newcommand\stacksinclude[1]{%
+  % download the tag's TeX code
+  \download[#1.tex]{http://stacks.math.columbia.edu/data/tag/#1/content/statement/raw}%
+  % immediately typeset it (we could do something else too)
+  \input{#1}%
+}
+
 \theoremstyle{plain}
 \newtheorem{proposition}[subsection]{Proposition}
 
 \begin{document}
-\download[01ZA.tex]{http://stacks.math.columbia.edu/data/tag/01ZA/content/statement/raw}
-\input{01ZA}
+\stacksinclude{01ZA}
 \end{document}
