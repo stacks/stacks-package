@@ -2,25 +2,24 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 
-\usepackage{download}
-
-
-% there should be a check on the tag being well-formed (or at least just 4 characters)
-% there should be a check on the output (maybe this supersedes the wellformedness check)
-% there should be a configurable ``default preamble'', maybe via some option: \usepackage[default]{stacks} would include the Stacks preamble, otherwise let the user do it
-% there should be an option for including the proof?
-
-% include a tag from the Stacks project
-\newcommand\stacksinclude[1]{%
-  % download the tag's TeX code
-  \download[#1.tex]{http://stacks.math.columbia.edu/data/tag/#1/content/statement/raw}%
-  % immediately typeset it (we could do something else too)
-  \input{#1}%
-}
+\usepackage{stacks}
 
 \theoremstyle{plain}
 \newtheorem{proposition}[subsection]{Proposition}
 
 \begin{document}
+Without proof:
 \stacksinclude{01ZA}
+
+With proof:
+\stacksinclude[proof]{01ZA}
+
+With proof:
+\stacksinclude[proof=true]{01ZA}
+
+Without proof:
+\stacksinclude[proof=false]{01ZA}
+
+Wrong value:
+\stacksinclude[proof=test]{01ZA}
 \end{document}
