@@ -15,9 +15,11 @@
 % \fi
 
 % \iffalse
-%stacks\NeedsTeXFormat{LaTeX2e}[1999/12/01]
-%stacks\ProvidesPackage{stacks}
-%stacks  [2014/06/14 v0.1 Automatically include snippets from the Stacks project]
+%<package>\NeedsTeXFormat{LaTeX2e}
+%<package>\ProvidesPackage{stacks}
+%<package>  [2014/06/14 v0.1 Automatically include snippets from the Stacks project]
+%<package>\RequirePackage{download}
+%<package>\RequirePackage{xparse}
 %
 %
 %<*driver>
@@ -48,13 +50,17 @@
 % \end{abstract}
 %
 % \DescribeMacro{\stacksinclude}
-% This macro fetches a tag.
+% This macro fetches a tag. It can be passed options, right now using \verb|[proof]| (or just any non-empty string) will fetch the proof. This should be changed to a key(-value) based approach.
 %
 % \section{Implementation}
 % \begin{macrocode}
-\newcommand\stacksinclude[1]{%
-  \download[#1.tex]{http://stacks.math.columbia.edu/data/tag/#1/content/statement/raw}%
-  \input{#1}%
+\DeclareDocumentCommand\stacksinclude{om}{%
+  \IfNoValueTF{#1}{%
+    \download[#2.tex]{http://stacks.math.columbia.edu/data/tag/#2/content/statement/raw}%
+  }{%
+    \download[#2.tex]{http://stacks.math.columbia.edu/data/tag/#2/content/full/raw}%
+  }
+  \input{#2}%
 }
 % \end{macrocode}
 \endinput
