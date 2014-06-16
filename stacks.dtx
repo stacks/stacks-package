@@ -19,6 +19,7 @@
 %<package>\ProvidesPackage{stacks}
 %<package>  [2014/06/14 v0.1 Automatically include snippets from the Stacks project]
 %<package>\RequirePackage{download}
+%<package>\RequirePackage{keyval}
 %<package>\RequirePackage{xparse}
 %
 %
@@ -53,7 +54,7 @@
 % This macro fetches a tag. It can be passed options, right now using \verb|[proof]| (or just any non-empty string) will fetch the proof. This should be changed to a key(-value) based approach.
 %
 % \section{Implementation}
-% \begin{macrocode}
+%    \begin{macrocode}
 \DeclareDocumentCommand\stacksinclude{om}{%
   \IfNoValueTF{#1}{%
     \download[#2.tex]{http://stacks.math.columbia.edu/data/tag/#2/content/statement/raw}%
@@ -62,5 +63,5 @@
   }
   \input{#2}%
 }
-% \end{macrocode}
+%    \end{macrocode}
 \endinput
