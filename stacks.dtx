@@ -54,32 +54,47 @@
 % This macro fetches a tag. It can be passed options, right now using \verb|[proof]| (or just any non-empty string) will fetch the proof. This should be changed to a key(-value) based approach.
 %
 % \section{Implementation}
-% The key-value code
+% \subsection{Global configuration}
 %    \begin{macrocode}
 \makeatletter
 
-\newcommand\stacks@options@proof{false}
-\define@key{stacks}{proof}[true]{\renewcommand\stacks@options@proof{#1}}
-
-\makeatother
+\newcommand\stacks@citation{stacks-project}
+\newcommand\stacks@site{http://stacks.math.columbia.edu}
 %    \end{macrocode}
-% The \verb|\stacksinclude| command
+% \subsection{The \texttt{stackscite} command}
 %    \begin{macrocode}
-\makeatletter
-
+\AtBeginDocument{%
+  \@ifpackageloaded{hyperref}{%
+    \DeclareDocumentCommand\stackscite{m}{%
+      \cite[\href{\stacks@site/tag/#1}{tag #1}]{\stacks@citation}%
+    }
+  }{%
+    \DeclareDocumentCommand\stackscite{m}{%
+      \cite[tag #1]{\stacks@citation}%
+    }%
+  }
+}
+%    \end{macrocode}
+% \subsection{The \texttt{stacksinclude} command}
+%    \begin{macrocode}
 \DeclareDocumentCommand\stacksinclude{om}{%
   \IfNoValueF{#1}{\setkeys{stacks}{#1}}%
 
   \ifnum\pdfstrcmp{\stacks@options@proof}{true}=0%
-    \download[#2-proof.tex]{http://stacks.math.columbia.edu/data/tag/#2/content/full/raw}%
+    \download[#2-proof.tex]{\stacks@site/data/tag/#2/content/full/raw}%
     \input{#2-proof}%
   \else\ifnum\pdfstrcmp{\stacks@options@proof}{false}=0%
-    \download[#2.tex]{http://stacks.math.columbia.edu/data/tag/#2/content/statement/raw}%
+    \download[#2.tex]{\stacks@site/data/tag/#2/content/statement/raw}%
     \input{#2}%
   \else
     provided a wrong argument
   \fi\fi%
 }
+%    \end{macrocode}
+% \subsection{Options processing for the \texttt{stacksinclude} command}
+%    \begin{macrocode}
+\newcommand\stacks@options@proof{false}
+\define@key{stacks}{proof}[true]{\renewcommand\stacks@options@proof{#1}}
 
 \makeatother
 %    \end{macrocode}
