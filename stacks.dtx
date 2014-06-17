@@ -20,6 +20,7 @@
 %<package>  [2014/06/14 v0.1 Automatically include snippets from the Stacks project]
 %<package>\RequirePackage{download}
 %<package>\RequirePackage{etoolbox}
+%<package>\RequirePackage{kvoptions}
 %<package>\RequirePackage{xkeyval}
 %<package>\RequirePackage{xparse}
 %
@@ -59,8 +60,15 @@
 %    \begin{macrocode}
 \makeatletter
 
-\newcommand\stacks@citation{stacks-project}
+\SetupKeyvalOptions{
+  family = stacks,
+  prefix = stacks@,
+}
+\DeclareStringOption[stacks-project]{citation}
+\ProcessKeyvalOptions*
+
 \newcommand\stacks@site{http://stacks.math.columbia.edu}
+
 \AtBeginDocument{%
   \newtoggle{stacks@usehyperref}%
   \@ifpackageloaded{hyperref}{\toggletrue{stacks@usehyperref}}{}
