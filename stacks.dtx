@@ -19,6 +19,7 @@
 %<package>\ProvidesPackage{stacks}
 %<package>  [2014/06/14 v0.1 Automatically include snippets from the Stacks project]
 %<package>\RequirePackage{download}
+%<package>\RequirePackage{etoolbox}
 %<package>\RequirePackage{xkeyval}
 %<package>\RequirePackage{xparse}
 %
@@ -60,18 +61,18 @@
 
 \newcommand\stacks@citation{stacks-project}
 \newcommand\stacks@site{http://stacks.math.columbia.edu}
+\AtBeginDocument{%
+  \newtoggle{stacks@usehyperref}%
+  \@ifpackageloaded{hyperref}{\toggletrue{stacks@usehyperref}}{}
+}
 %    \end{macrocode}
 % \subsection{The \texttt{stackscite} command}
 %    \begin{macrocode}
-\AtBeginDocument{%
-  \@ifpackageloaded{hyperref}{%
-    \DeclareDocumentCommand\stackscite{m}{%
-      \cite[\href{\stacks@site/tag/#1}{tag #1}]{\stacks@citation}%
-    }
+\DeclareDocumentCommand\stackscite{m}{%
+  \iftoggle{stacks@usehyperref}{%
+    \cite[\href{\stacks@site/tag/#1}{tag #1}]{\stacks@citation}%
   }{%
-    \DeclareDocumentCommand\stackscite{m}{%
-      \cite[tag #1]{\stacks@citation}%
-    }%
+    \cite[tag #1]{\stacks@citation}%
   }
 }
 %    \end{macrocode}
