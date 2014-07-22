@@ -89,6 +89,9 @@
 \DeclareDocumentCommand\stacksinclude{om}{%
   \renewcommand\stacks@options@proof{false}
   \renewcommand\stacks@options@label{}
+  \renewcommand\stacks@options@prefix{}
+
+  \let\oldlabel\label%
   \IfNoValueF{#1}{\setkeys{stacks}{#1}}%
 
   \ifnum\pdfstrcmp{\stacks@options@proof}{true}=0%
@@ -98,9 +101,10 @@
     \download[#2.tex]{\stacks@site/data/tag/#2/content/statement/raw}%
     \input{#2}%
   \else
-  provided a wrong argument (\texttt{\stacks@options@proof}) to the
-  \texttt{proof} option
+    provided a wrong argument (\texttt{\stacks@options@proof}) to the
+    \texttt{proof} option
   \fi\fi%
+  \let\label\oldlabel%
 }
 %    \end{macrocode}
 % \subsection{Options processing for the \texttt{stacksinclude} command}
@@ -110,10 +114,15 @@
 \newcommand\stacks@options@label{}
 \define@key{stacks}{label}{%
   \renewcommand\stacks@options@label{#1}%
-  \let\oldlabel\label%
   \renewcommand{\label}[1]{%
     \oldlabel{\stacks@options@label}%
-    \let\label\oldlabel%
+  }%
+}
+\newcommand\stacks@options@prefix{}
+\define@key{stacks}{prefix}[stacks-]{%
+  \renewcommand\stacks@options@prefix{#1}%
+  \renewcommand{\label}[1]{%
+    \oldlabel{\stacks@options@prefix##1}%
   }%
 }
 
