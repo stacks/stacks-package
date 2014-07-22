@@ -87,6 +87,8 @@
 % \subsection{The \texttt{stacksinclude} command}
 %    \begin{macrocode}
 \DeclareDocumentCommand\stacksinclude{om}{%
+  \renewcommand\stacks@options@proof{false}
+  \renewcommand\stacks@options@label{}
   \IfNoValueF{#1}{\setkeys{stacks}{#1}}%
 
   \ifnum\pdfstrcmp{\stacks@options@proof}{true}=0%
@@ -96,7 +98,8 @@
     \download[#2.tex]{\stacks@site/data/tag/#2/content/statement/raw}%
     \input{#2}%
   \else
-    provided a wrong argument
+  provided a wrong argument (\texttt{\stacks@options@proof}) to the
+  \texttt{proof} option
   \fi\fi%
 }
 %    \end{macrocode}
