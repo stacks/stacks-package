@@ -53,7 +53,24 @@
 % \end{abstract}
 %
 % \DescribeMacro{\stacksinclude}
-% This macro fetches a tag. It can be passed options, right now using \verb|[proof]| (or just any non-empty string) will fetch the proof. This should be changed to a key(-value) based approach.
+% This macro fetches a tag from the Stacks project. It can be passed the
+% following options:
+% \begin{description}
+%   \item[\texttt{[proof\textit{$\langle=b\rangle$}]}] Boolean value; default:
+%   \texttt{true}. Fetches the proof of the tag (as well as the statement).
+%   \item[\texttt{[label$=s$]}] String value; error if no value given. Changes
+%   the label of the tag to $s$. Should only be used on theorem-like
+%   environments. \emph{N.B.: Conflicts with option \texttt{prefix}.}
+%   \item[\texttt{[prefix$\langle=s\rangle$]}] String value; default:
+%   \texttt{stacks-}. Prefixes all labels in this tag with $s$. Useful when
+%   including entire sections or subsections. \emph{N.B.: Conflicts with option
+%   \texttt{label}.}
+% \end{description}
+% As an example, one could include Nakayama's lemma with the command:
+% \begin{verbatim}
+%     \stacksinclude[proof,prefix]{00DV}
+% \end{verbatim}
+% The label of the included lemma would then be \texttt{stacks-lemma-NAK}.
 %
 % \section{Implementation}
 % \subsection{Global configuration}
