@@ -2,6 +2,8 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 
+\usepackage{showlabels}
+
 \usepackage{stacks}
 
 \theoremstyle{plain}
@@ -22,4 +24,7 @@ Without proof:
 
 Wrong value:
 \stacksinclude[proof=test]{01ZA}
+
+Custom label:
+\stacksinclude[proof,label=mycustomlabel]{01ZA}
 \end{document}

@@ -104,6 +104,15 @@
 %    \begin{macrocode}
 \newcommand\stacks@options@proof{false}
 \define@key{stacks}{proof}[true]{\renewcommand\stacks@options@proof{#1}}
+\newcommand\stacks@options@label{}
+\define@key{stacks}{label}{%
+  \renewcommand\stacks@options@label{#1}%
+  \let\oldlabel\label%
+  \renewcommand{\label}[1]{%
+    \oldlabel{\stacks@options@label}%
+    \let\label\oldlabel%
+  }%
+}
 
 \makeatother
 %    \end{macrocode}
